@@ -1,0 +1,15 @@
+,"GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='deviance', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_impurity_split=None,
+                           min_samples_leaf=1, min_samples_split=2,
+                           min_weight_fraction_leaf=0.0, n_estimators=100,
+                           n_iter_no_change=None, presort='deprecated',
+                           random_state=None, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False)"
+No,"{'precision': 0.9986421725239617, 'recall': 0.9873257788131243, 'f1-score': 0.9929517342704548, 'support': 25327}"
+Yes,"{'precision': 0.0, 'recall': 0.0, 'f1-score': 0.0, 'support': 34}"
+accuracy,0.9860021292535783
+macro avg,"{'precision': 0.49932108626198085, 'recall': 0.49366288940656217, 'f1-score': 0.4964758671352274, 'support': 25361}"
+weighted avg,"{'precision': 0.9973033517414289, 'recall': 0.9860021292535783, 'f1-score': 0.9916205423235601, 'support': 25361}"
