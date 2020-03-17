@@ -23,3 +23,4 @@ def upsample(df, column):
     y_upsampled = df_upsampled['purchase'].values
 
     return df_upsampled, X_upsampled, y_upsampled
+    
