@@ -4,14 +4,15 @@ from itertools import combinations
 from classifiers import classification_report, rocauc, pr_curve, confusion_matrix
 from evaluate import evaluate_model, save_report
 from upsample import upsample
+from load_data import load_data
 from sklearn.model_selection import train_test_split
 
 
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.utils import resample
 
-#models = [GradientBoostingClassifier(), RandomForestClassifier()]
-models = [GradientBoostingClassifier()]
+models = [GradientBoostingClassifier(), RandomForestClassifier()]
+#models = [GradientBoostingClassifier()]
 #classifiers = [classification_report, rocauc, pr_curve, confusion_matrix]
 classifiers = [rocauc]
 
@@ -19,7 +20,7 @@ classifiers = [rocauc]
 df, labels, X, y = load_data()
 
 
-df_upsampled, X_upsampled, y_upsampled = upsample(df, 'purchase')
+df_upsampled, X_upsampled, y_upsampled = upsample(df, 'purchase', labels)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
