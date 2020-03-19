@@ -1,5 +1,7 @@
 from sklearn.utils import resample
-def upsample(df, column):
+import pandas as pd
+
+def upsample(df, column, labels):
 
     # Up-sample Minority Class approach from Elite Data Science
     # https://elitedatascience.com/imbalanced-classes
@@ -20,7 +22,6 @@ def upsample(df, column):
     # Combine majority class with upsampled minority class
     df_upsampled = pd.concat([df_majority, df_minority_upsampled])
     X_upsampled = df_upsampled[labels].values
-    y_upsampled = df_upsampled['purchase'].values
+    y_upsampled = df_upsampled[column].values
 
     return df_upsampled, X_upsampled, y_upsampled
-    
