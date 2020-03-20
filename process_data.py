@@ -40,7 +40,7 @@ report_df = pd.DataFrame.from_dict(report_dict)
 
 report_df.to_csv('Data/Output/report_df.csv')
 """
-def create_report_df(X, y, upsampled=False):
+def create_report_df(upsampled=False):
 
     models = [GradientBoostingClassifier(), RandomForestClassifier()]
     #models = [GradientBoostingClassifier()]
@@ -48,15 +48,20 @@ def create_report_df(X, y, upsampled=False):
     classifiers = [rocauc]
 
     df, labels, X, y = load_data()
-    train_df, test_df = train_test_split(X, y, test_size = .30, random_state=42)
+    train_df, test_df = train_test_split(df, test_size = .30, random_state=42)
 
-    if upsampled=True:
-        df_upsampled, X_upsampled, y_upsampled = upsample(train_df, 'purchase', labels)
+    if upsampled==True:
+        df_upsampled, X_train, y_train= upsample(train_df, 'purchase', labels)
         X_test = test_df[labels].values
         y_test = test_df['purchase'].values
 
 
     else:
+        X_train = train_df[labels].values
+        y_train = train_df['purchase'].values
+        X_test = test_df[labels].values
+        y_test = test_df['purchase'].values
+
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
     report_dict= {}
@@ -65,17 +70,14 @@ def create_report_df(X, y, upsampled=False):
             classifiers[i](X, y, model_, upsampled=upsampled)
 
         model = model_
-        if upsampled == True:
-            model.fit(X_upsampled, y_upsampled)
-        else:
-            model.fit(X_train, y_train)
+        model.fit(X_train, y_train)
         report_dict[str(model).split('(')[0]] = evaluate_model(model, X_test, y_test)
 
     report_df = pd.DataFrame.from_dict(report_dict)
 
     return report_df
 
-report_df = create_report_df(X, y)
+report_df = create_report_df()
 report_df.to_csv('Data/Output/report_df.csv')
-report_df_upsampled = create_report_df(X, y upsampled=True)
+report_df_upsampled = create_report_df(upsampled=True)
 report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
