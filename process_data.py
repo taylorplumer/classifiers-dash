@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.utils import resample
 
+"""
 models = [GradientBoostingClassifier(), RandomForestClassifier()]
 #models = [GradientBoostingClassifier()]
 #classifiers = [classification_report, rocauc, pr_curve, confusion_matrix]
@@ -19,9 +20,10 @@ classifiers = [rocauc]
 
 df, labels, X, y = load_data()
 
+
 df_upsampled, X_upsampled, y_upsampled = upsample(df, 'purchase', labels)
 
-"""
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
 report_dict = {}
@@ -39,14 +41,34 @@ report_df = pd.DataFrame.from_dict(report_dict)
 report_df.to_csv('Data/Output/report_df.csv')
 """
 def create_report_df(X, y, upsampled=False):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
+
+    models = [GradientBoostingClassifier(), RandomForestClassifier()]
+    #models = [GradientBoostingClassifier()]
+    #classifiers = [classification_report, rocauc, pr_curve, confusion_matrix]
+    classifiers = [rocauc]
+
+    df, labels, X, y = load_data()
+    train_df, test_df = train_test_split(X, y, test_size = .30, random_state=42)
+
+    if upsampled=True:
+        df_upsampled, X_upsampled, y_upsampled = upsample(train_df, 'purchase', labels)
+        X_test = test_df[labels].values
+        y_test = test_df['purchase'].values
+
+
+    else:
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
+
     report_dict= {}
     for model_ in models:
         for i in range(len(classifiers)):
             classifiers[i](X, y, model_, upsampled=upsampled)
 
         model = model_
-        model.fit(X_train, y_train)
+        if upsampled == True:
+            model.fit(X_upsampled, y_upsampled)
+        else:
+            model.fit(X_train, y_train)
         report_dict[str(model).split('(')[0]] = evaluate_model(model, X_test, y_test)
 
     report_df = pd.DataFrame.from_dict(report_dict)
@@ -55,5 +77,5 @@ def create_report_df(X, y, upsampled=False):
 
 report_df = create_report_df(X, y)
 report_df.to_csv('Data/Output/report_df.csv')
-report_df_upsampled = create_report_df(X_upsampled, y_upsampled, upsampled=True)
+report_df_upsampled = create_report_df(X, y upsampled=True)
 report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
