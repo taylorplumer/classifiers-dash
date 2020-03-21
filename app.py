@@ -14,10 +14,10 @@ from dash.dependencies import Input, Output
 
 from itertools import combinations
 from classifiers import classification_report, rocauc, pr_curve, confusion_matrix
-from evaluate import evaluate_model, save_report
 from upsample import upsample
 from load_data import load_data
-from heatmap import clean_report_df, create_heatmap
+from helpers import evaluate_model, save_report, clean_report_df, create_heatmap
+
 
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
@@ -42,7 +42,10 @@ app.layout = html.Div([
                 value='No Upsample'
             ),
             dcc.Graph(id='heatmap-graph'),
-            html.Img(id='display-image', src='children', height=300),
+            html.Img(id='rocauc-image', src='children', height=300),
+            html.Img(id='pr_curve-image', src='children', height=300),
+            html.Img(id='classification_report-image', src='children', height=300),
+            html.Img(id='confusion_matrix-image', src='children', height=300),
             html.Div([
                 html.Pre(id='hover-data', style={'paddingTop':35})
                 ], style={'width':'30%'})
@@ -63,7 +66,9 @@ def update_heatmap(sample_selection):
     return figure
 
 @app.callback(
-    [Output('display-image', 'src'), Output('hover-data', 'children')],
+    [Output('rocauc-image', 'src'), Output('pr_curve-image', 'src'),
+    Output('classification_report-image', 'src'), Output('confusion_matrix-image', 'src'),
+    Output('hover-data', 'children')],
     [Input('sample-dropdown', 'value'), Input('heatmap-graph', 'hoverData')])
 def callback_image(sample_selection, hoverData):
     path = '/Users/taylorplumer/Documents/2020/yellowbrick/Dash/'
@@ -72,13 +77,22 @@ def callback_image(sample_selection, hoverData):
 
     model = hover_dict['points'][0]['y']
 
-    if sample_selection == 'Upsample':
-        outpath_ = 'Data/img/' + model + '/rocauc_upsampled.png'
-    else:
-        outpath_ = 'Data/img/' + model + '/rocauc.png'
+
+    vizs = ['rocauc', 'pr_curve', 'classification_report','confusion_matrix']
+    #vizs = ['rocauc', 'pr_curve']
+    image_dict = {}
+    for viz in vizs:
+        if sample_selection == 'Upsample':
+            viz_path = 'Data/img/' + model + '/' + viz + '_upsampled.png'
+            viz_image = encode_image(path+viz_path)
+            image_dict[viz] = viz_image
+        else:
+            viz_path = 'Data/img/' + model + '/' + viz + '.png'
+            viz_image = encode_image(path+viz_path)
+            image_dict[viz] = viz_image
 
 
-    return encode_image(path+outpath_), json.dumps(hoverData, indent=2)
+    return image_dict['rocauc'], image_dict['pr_curve'], image_dict['classification_report'], image_dict['confusion_matrix'], json.dumps(hoverData, indent=2)
 
 if __name__ == '__main__':
     app.run_server()

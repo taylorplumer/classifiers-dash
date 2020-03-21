@@ -7,7 +7,8 @@ from upsample import upsample
 from load_data import load_data
 from sklearn.model_selection import train_test_split
 
-
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.utils import resample
 
@@ -42,10 +43,10 @@ report_df.to_csv('Data/Output/report_df.csv')
 """
 def create_report_df(upsampled=False):
 
-    models = [GradientBoostingClassifier(), RandomForestClassifier()]
+    models = [GradientBoostingClassifier(), RandomForestClassifier(), LogisticRegression(), GaussianNB() ]
     #models = [GradientBoostingClassifier()]
-    #classifiers = [classification_report, rocauc, pr_curve, confusion_matrix]
-    classifiers = [rocauc]
+    classifiers = [classification_report, rocauc, pr_curve, confusion_matrix]
+    #classifiers = [rocauc]
 
     df, labels, X, y = load_data()
     train_df, test_df = train_test_split(df, test_size = .30, random_state=42)
@@ -62,7 +63,7 @@ def create_report_df(upsampled=False):
         X_test = test_df[labels].values
         y_test = test_df['purchase'].values
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
+        #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
     report_dict= {}
     for model_ in models:
