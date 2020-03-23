@@ -1,6 +1,8 @@
 import ast
 import base64
 import json
+import os
+import sys
 
 import pandas as pd
 import numpy as np
@@ -71,25 +73,25 @@ def update_heatmap(sample_selection):
     Output('hover-data', 'children')],
     [Input('sample-dropdown', 'value'), Input('heatmap-graph', 'hoverData')])
 def callback_image(sample_selection, hoverData):
-    path = '/Users/taylorplumer/Documents/2020/yellowbrick/Dash/'
+    path = os.getcwd() + '/'
 
     hover_dict = ast.literal_eval(json.dumps(hoverData, indent=2))
 
-    model = hover_dict['points'][0]['y']
+    model_on_hover = hover_dict['points'][0]['y']
 
 
-    vizs = ['rocauc', 'pr_curve', 'classification_report','confusion_matrix']
-    #vizs = ['rocauc', 'pr_curve']
+    visualizations = ['rocauc', 'pr_curve', 'classification_report','confusion_matrix']
+    #visualizationualizations = ['rocauc', 'pr_curve']
     image_dict = {}
-    for viz in vizs:
+    for visualization in visualizations:
         if sample_selection == 'Upsample':
-            viz_path = 'Data/img/' + model + '/' + viz + '_upsampled.png'
-            viz_image = encode_image(path+viz_path)
-            image_dict[viz] = viz_image
+            visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '_upsampled.png'
+            visualization_image = encode_image(path+visualization_path)
+            image_dict[visualization] = visualization_image
         else:
-            viz_path = 'Data/img/' + model + '/' + viz + '.png'
-            viz_image = encode_image(path+viz_path)
-            image_dict[viz] = viz_image
+            visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '.png'
+            visualization_image = encode_image(path+visualization_path)
+            image_dict[visualization] = visualization_image
 
 
     return image_dict['rocauc'], image_dict['pr_curve'], image_dict['classification_report'], image_dict['confusion_matrix'], json.dumps(hoverData, indent=2)
