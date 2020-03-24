@@ -33,7 +33,6 @@ def create_report_df(upsampled=False):
         X_test = test_df[labels].values
         y_test = test_df['purchase'].values
 
-        #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
     report_dict= {}
     for model_ in models:
@@ -44,14 +43,12 @@ def create_report_df(upsampled=False):
         model.fit(X_train, y_train)
         report_dict[str(model).split('(')[0]] = evaluate_model(model, X_test, y_test)
 
-    report_df = pd.DataFrame.from_dict(report_dict)
+    report_df = clean_report_df(pd.DataFrame.from_dict(report_dict))
 
     return report_df
 
 report_df = create_report_df()
-cleaned_report_df = clean_report_df(report_df)
-cleaned_report_df.to_csv('Data/Output/report_df.csv')
+report_df.to_csv('Data/Output/report_df.csv')
 
 report_df_upsampled = create_report_df(upsampled=True)
-cleaned_report_df_upsampled = clean_report_df(report_df_upsampled)
-cleaned_report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
+report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
