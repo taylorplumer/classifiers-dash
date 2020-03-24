@@ -53,19 +53,15 @@ def save_report(report, report_filepath='Data/Output/report.csv'):
     return report_df
 
 
-def clean_report_df(filepath):
-    report_df = pd.read_csv(filepath, header=None).T
-    if report_df.iloc[0].values.tolist() == [np.nan, 'No', 'Yes', 'accuracy', 'macro avg', 'weighted avg']:
+def clean_report_df(df):
+    report_df = df.T
+    if report_df.columns.tolist() == ['0', '1', 'accuracy', 'macro avg', 'weighted avg']:
         pass
     else:
-        return "Check report_df.csv file structure"
-    report_df.columns = report_df.iloc[0]
-    report_df = report_df.drop(report_df.index[0])
-    report_df.columns = ['classifier', 'No', 'Yes', 'accuracy', 'Macro Avg', 'Micro Avg' ]
-    dict_columns = ['No', 'Yes', 'Macro Avg', 'Micro Avg']
+        return "Warning: Column names aren't as expected. Verify report_df output_dict is correct."
+    report_df.columns = ['0', '1', 'accuracy', 'Macro Avg', 'Micro Avg' ]
+    dict_columns = ['0', '1', 'Macro Avg', 'Micro Avg']
     keys = ['precision', 'recall', 'f1-score', 'support']
-    report_df['classifier'] = report_df['classifier'].apply(lambda x: x.split('(')[0])
-    report_df = report_df.set_index('classifier')
 
 
     def revise_dict(x, col, keys):
@@ -74,7 +70,6 @@ def clean_report_df(filepath):
         return new_dict
 
     for col in dict_columns:
-        report_df[col] = report_df[col].apply(lambda x: ast.literal_eval(x))
         report_df[col] = report_df[col].apply(lambda x: revise_dict(x, col, keys))
 
     for col in dict_columns:
@@ -82,9 +77,11 @@ def clean_report_df(filepath):
         for classifier in report_df.index.values.tolist():
             name = str(classifier) + '_df'
             new_dict[name]= json_normalize(report_df.loc[classifier][col])
+            #display(new_dict[name])
             new_dict[name]['classifier'] = [classifier]
         dict_df = pd.concat(list(new_dict.values())).reset_index().drop(columns=['index'], axis=1)
-        report_df = report_df.merge(dict_df, how='left', left_on='classifier', right_on='classifier').set_index('classifier')
+
+        report_df = report_df.merge(dict_df, how='left', left_index=True, left_on=None, right_on='classifier').set_index('classifier')
 
     report_df = report_df.iloc[:,5:]
     report_df = report_df[sorted([col for col in report_df.columns if 'support' not in col])]

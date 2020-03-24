@@ -49,7 +49,9 @@ def create_report_df(upsampled=False):
     return report_df
 
 report_df = create_report_df()
+cleaned_report_df = clean_report_df(report_df)
+cleaned_report_df.to_csv('Data/Output/report_df.csv')
 
-report_df.to_csv('Data/Output/report_df.csv')
 report_df_upsampled = create_report_df(upsampled=True)
-report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
+cleaned_report_df_upsampled = clean_report_df(report_df_upsampled)
+cleaned_report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')

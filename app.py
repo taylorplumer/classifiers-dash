@@ -62,7 +62,7 @@ def update_heatmap(sample_selection):
     else:
         filepath = 'Data/Output/report_df.csv'
 
-    df = clean_report_df(filepath)
+    df = pd.read_csv(filepath).set_index('classifier')
     figure = create_heatmap(df)
 
     return figure
