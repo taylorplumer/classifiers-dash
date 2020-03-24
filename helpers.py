@@ -19,7 +19,7 @@ def evaluate_model(model, X_test, Y_test):
     """
     y_pred = model.predict(X_test)
 
-    report = classificationreport(y_pred, Y_test, target_names= ["No", "Yes"], output_dict=True)
+    report = classificationreport(y_pred, Y_test, target_names= ["0", "1"], output_dict=True)
 
     print(report)
 
@@ -55,6 +55,10 @@ def save_report(report, report_filepath='Data/Output/report.csv'):
 
 def clean_report_df(filepath):
     report_df = pd.read_csv(filepath, header=None).T
+    if report_df.iloc[0].values.tolist() == [np.nan, 'No', 'Yes', 'accuracy', 'macro avg', 'weighted avg']:
+        pass
+    else:
+        return "Check report_df.csv file structure"
     report_df.columns = report_df.iloc[0]
     report_df = report_df.drop(report_df.index[0])
     report_df.columns = ['classifier', 'No', 'Yes', 'accuracy', 'Macro Avg', 'Micro Avg' ]

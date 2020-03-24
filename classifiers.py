@@ -10,7 +10,7 @@ def classification_report(X, y, model, upsampled=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
 
-    classes = ["No", "Yes"]
+    classes = ["0", "1"]
 
     visualizer = ClassificationReport(model, classes=classes, support=True)
     visualizer.fit(X_train, y_train)
@@ -31,7 +31,7 @@ def rocauc(X, y, model, upsampled=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
 
-    classes = ["No", "Yes"]
+    classes = ["0", "1"]
 
     visualizer = ROCAUC(model, classes=classes, support=True)
     visualizer.fit(X_train, y_train)
@@ -52,7 +52,7 @@ def pr_curve(X, y, model, upsampled=False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
 
-    classes = ["No", "Yes"]
+    classes = ["0", "1"]
 
     visualizer = PrecisionRecallCurve(model)
     visualizer.fit(X_train, y_train)
@@ -72,7 +72,7 @@ def confusion_matrix(X, y, model, upsampled=False):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .30, random_state=42)
 
-    classes = ["No", "Yes"]
+    classes = ["0", "1"]
 
     visualizer = ConfusionMatrix(model, classes=classes)
     visualizer.fit(X_train, y_train)
