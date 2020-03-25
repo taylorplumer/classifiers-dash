@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 from itertools import combinations
-#from visualizers import classification_report, rocauc, pr_curve, confusion_matrix
-from visualizers2 import Visualizer
+from visualizers import Visualizer
 from helpers import evaluate_model, save_report
 from upsample import upsample
 from load_data import load_data
