@@ -15,7 +15,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from itertools import combinations
-from visualizers import classification_report, rocauc, pr_curve, confusion_matrix
+from visualizers import ClassificationReport, ROCAUC, PrecisionRecallCurve, ConfusionMatrix
 from upsample import upsample
 from load_data import load_data
 from helpers import evaluate_model, save_report, clean_report_df, create_heatmap
@@ -47,10 +47,10 @@ app.layout = html.Div([
                 value='No Upsample'
             ),
             dcc.Graph(id='heatmap-graph'),
-            html.Img(id='rocauc-image', src='children', height=300),
-            html.Img(id='pr_curve-image', src='children', height=300),
-            html.Img(id='classification_report-image', src='children', height=300),
-            html.Img(id='confusion_matrix-image', src='children', height=300),
+            html.Img(id='ROCAUC-image', src='children', height=300),
+            html.Img(id='PrecisionRecallCurve-image', src='children', height=300),
+            html.Img(id='ClassificationReport-image', src='children', height=300),
+            html.Img(id='ConfusionMatrix-image', src='children', height=300),
             html.Div([
                 html.Pre(id='hover-data', style={'paddingTop':35})
                 ], style={'width':'30%'})
@@ -68,15 +68,15 @@ def update_heatmap(sample_selection):
     return figure
 
 @app.callback(
-    [Output('rocauc-image', 'src'), Output('pr_curve-image', 'src'),
-    Output('classification_report-image', 'src'), Output('confusion_matrix-image', 'src'),
+    [Output('ROCAUC-image', 'src'), Output('PrecisionRecallCurve-image', 'src'),
+    Output('ClassificationReport-image', 'src'), Output('ConfusionMatrix-image', 'src'),
     Output('hover-data', 'children')],
     [Input('sample-dropdown', 'value'), Input('heatmap-graph', 'hoverData')])
 def callback_image(sample_selection, hoverData):
     path = os.getcwd() + '/'
     hover_dict = ast.literal_eval(json.dumps(hoverData, indent=2))
     model_on_hover = hover_dict['points'][0]['y']
-    visualizations = ['rocauc', 'pr_curve', 'classification_report','confusion_matrix']
+    visualizations = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
 
     image_dict = {}
     for visualization in visualizations:
@@ -89,7 +89,7 @@ def callback_image(sample_selection, hoverData):
             visualization_image = encode_image(path+visualization_path)
             image_dict[visualization] = visualization_image
 
-    return image_dict['rocauc'], image_dict['pr_curve'], image_dict['classification_report'], image_dict['confusion_matrix'], json.dumps(hoverData, indent=2)
+    return image_dict['ROCAUC'], image_dict['PrecisionRecallCurve'], image_dict['ClassificationReport'], image_dict['ConfusionMatrix'], json.dumps(hoverData, indent=2)
 
 if __name__ == '__main__':
     app.run_server()

@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 from itertools import combinations
-from visualizers import classification_report, rocauc, pr_curve, confusion_matrix
+#from visualizers import classification_report, rocauc, pr_curve, confusion_matrix
+from visualizers2 import Visualizer
 from helpers import evaluate_model, save_report
 from upsample import upsample
 from load_data import load_data
@@ -17,7 +18,7 @@ from sklearn.utils import resample
 def create_report_df(upsampled=False):
 
     models = [GradientBoostingClassifier(), RandomForestClassifier(), LogisticRegression(), GaussianNB() ]
-    visualizers = [classification_report, rocauc, pr_curve, confusion_matrix]
+    visualizers = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
 
     df, labels, X, y = load_data()
     train_df, test_df = train_test_split(df, test_size = .30, random_state=42)
@@ -35,8 +36,10 @@ def create_report_df(upsampled=False):
 
     report_dict= {}
     for model_ in models:
-        for i in range(len(visualizers)):
-            visualizers[i](X, y, model_, upsampled=upsampled)
+        for visualizer_ in visualizers:
+            viz = Visualizer(X, y, labels, model_, visualizer_, upsampled=upsampled)
+            viz.evaluate()
+            viz.save_img()
 
         model = model_
         model.fit(X_train, y_train)
