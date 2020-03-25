@@ -15,7 +15,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from itertools import combinations
-from classifiers import classification_report, rocauc, pr_curve, confusion_matrix
+from visualizers import classification_report, rocauc, pr_curve, confusion_matrix
 from upsample import upsample
 from load_data import load_data
 from helpers import evaluate_model, save_report, clean_report_df, create_heatmap
@@ -29,6 +29,9 @@ from sklearn.utils import resample
 
 
 elements = ['Upsample', 'No Upsample']
+
+report_df = pd.read_csv('Data/Output/report_df.csv').set_index('classifier')
+report_df_upsampled = pd.read_csv('Data/Output/report_df_upsampled.csv').set_index('classifier')
 
 app = dash.Dash()
 
@@ -56,13 +59,10 @@ app.layout = html.Div([
 @app.callback(Output('heatmap-graph', 'figure'),
                 [Input('sample-dropdown', 'value')])
 def update_heatmap(sample_selection):
-
     if sample_selection == 'Upsample':
-        filepath = 'Data/Output/report_df_upsampled.csv'
+        df = report_df_upsampled
     else:
-        filepath = 'Data/Output/report_df.csv'
-
-    df = pd.read_csv(filepath).set_index('classifier')
+        df = report_df
     figure = create_heatmap(df)
 
     return figure
@@ -74,14 +74,10 @@ def update_heatmap(sample_selection):
     [Input('sample-dropdown', 'value'), Input('heatmap-graph', 'hoverData')])
 def callback_image(sample_selection, hoverData):
     path = os.getcwd() + '/'
-
     hover_dict = ast.literal_eval(json.dumps(hoverData, indent=2))
-
     model_on_hover = hover_dict['points'][0]['y']
-
-
     visualizations = ['rocauc', 'pr_curve', 'classification_report','confusion_matrix']
-    #visualizationualizations = ['rocauc', 'pr_curve']
+
     image_dict = {}
     for visualization in visualizations:
         if sample_selection == 'Upsample':
@@ -92,7 +88,6 @@ def callback_image(sample_selection, hoverData):
             visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '.png'
             visualization_image = encode_image(path+visualization_path)
             image_dict[visualization] = visualization_image
-
 
     return image_dict['rocauc'], image_dict['pr_curve'], image_dict['classification_report'], image_dict['confusion_matrix'], json.dumps(hoverData, indent=2)
 
