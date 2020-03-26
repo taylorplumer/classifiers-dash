@@ -28,13 +28,16 @@ from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.utils import resample
 
 
-elements = ['Upsample', 'No Upsample']
+dropdown_values = ['Upsample', 'No Upsample']
 
+# read both non-upsampled and upsampled report_df csv files as dataframes
 report_df = pd.read_csv('Data/Output/report_df.csv').set_index('classifier')
 report_df_upsampled = pd.read_csv('Data/Output/report_df_upsampled.csv').set_index('classifier')
 
+# create Dash app
 app = dash.Dash()
 
+# helper function to render images
 def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/png;base64,{}'.format(encoded.decode())
@@ -43,7 +46,7 @@ def encode_image(image_file):
 app.layout = html.Div([
             dcc.Dropdown(
                 id='sample-dropdown',
-                options=[{'label': element, 'value': element} for element in elements],
+                options=[{'label': dropdown_value, 'value': dropdown_value} for dropdown_value in dropdown_values],
                 value='No Upsample'
             ),
             dcc.Graph(id='heatmap-graph'),
@@ -73,11 +76,17 @@ def update_heatmap(sample_selection):
     Output('hover-data', 'children')],
     [Input('sample-dropdown', 'value'), Input('heatmap-graph', 'hoverData')])
 def callback_image(sample_selection, hoverData):
+    # set path to current working directory
     path = os.getcwd() + '/'
+
+    # interprets hover data json as dictionary
     hover_dict = ast.literal_eval(json.dumps(hoverData, indent=2))
     model_on_hover = hover_dict['points'][0]['y']
+
+    # create list of yellowbrick visualizers with naming conventions matching how they are stored in img diretory
     visualizations = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
 
+    # create dictionary with each value as an element of visualizations list and value as associated base65 image
     image_dict = {}
     for visualization in visualizations:
         if sample_selection == 'Upsample':
