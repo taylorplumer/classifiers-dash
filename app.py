@@ -18,7 +18,7 @@ from itertools import combinations
 from visualizers import ClassificationReport, ROCAUC, PrecisionRecallCurve, ConfusionMatrix
 from upsample import upsample
 from load_data import load_data
-from helpers import evaluate_model, save_report, clean_report_df, create_heatmap
+from helpers import create_heatmap
 
 
 from sklearn.model_selection import train_test_split
