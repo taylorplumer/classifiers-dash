@@ -72,8 +72,7 @@ def update_heatmap(sample_selection):
 
 @app.callback(
     [Output('ROCAUC-image', 'src'), Output('PrecisionRecallCurve-image', 'src'),
-    Output('ClassificationReport-image', 'src'), Output('ConfusionMatrix-image', 'src'),
-    Output('hover-data', 'children')],
+    Output('ClassificationReport-image', 'src'), Output('ConfusionMatrix-image', 'src')],
     [Input('sample-dropdown', 'value'), Input('heatmap-graph', 'hoverData')])
 def callback_image(sample_selection, hoverData):
     # set path to current working directory
@@ -97,7 +96,6 @@ def callback_image(sample_selection, hoverData):
             visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '.png'
             visualization_image = encode_image(path+visualization_path)
             output_list.append(visualization_image)
-    output_list.append(json.dumps(hoverData, indent=2))
     return output_list
 
 if __name__ == '__main__':
