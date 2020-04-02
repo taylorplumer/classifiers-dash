@@ -4,7 +4,7 @@ from itertools import combinations
 from visualizers import Visualizer
 from helpers import create_img, evaluate_model, revise_dict, normalize_to_flat
 from upsample import upsample
-from load_data import load_data, load_credit_data
+from load_data import load_data
 from sklearn.model_selection import train_test_split
 from pandas.io.json import json_normalize
 
@@ -17,16 +17,16 @@ from sklearn.utils import resample
 def create_report_df(upsampled=False):
 
     # modify depending on needs for sklearn classifiers and yellowbrick visualizers
-    models = [GradientBoostingClassifier(), RandomForestClassifier(), LogisticRegression(), GaussianNB() ]
+    models = [GradientBoostingClassifier(), RandomForestClassifier(), LogisticRegression(max_iter=1000), GaussianNB() ]
     #models = [GradientBoostingClassifier(), RandomForestClassifier()]
     visualizers = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
 
     #df, labels, X, y = load_data()
-    df, labels, features, target, X, y = load_credit_data()
+    df, labels, features, target, X, y = load_data()
     train_df, test_df = train_test_split(df, test_size = .30, random_state=42)
     # ensure that upsample method only is applied to training set
     if upsampled==True:
-        df_upsampled, X_train, y_train= upsample(train_df, target[0], features)
+        df_upsampled, X_train, y_train= upsample(train_df, target, features)
         X_test = test_df[features].values
         y_test = test_df[target].values
 

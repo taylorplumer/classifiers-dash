@@ -87,18 +87,18 @@ def callback_image(sample_selection, hoverData):
     visualizations = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
 
     # create dictionary with each value as an element of visualizations list and value as associated base65 image
-    image_dict = {}
+    output_list = []
     for visualization in visualizations:
         if sample_selection == 'Upsample':
             visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '_upsampled.png'
             visualization_image = encode_image(path+visualization_path)
-            image_dict[visualization] = visualization_image
+            output_list.append(visualization_image)
         else:
             visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '.png'
             visualization_image = encode_image(path+visualization_path)
-            image_dict[visualization] = visualization_image
-
-    return image_dict['ROCAUC'], image_dict['PrecisionRecallCurve'], image_dict['ClassificationReport'], image_dict['ConfusionMatrix'], json.dumps(hoverData, indent=2)
+            output_list.append(visualization_image)
+    output_list.append(json.dumps(hoverData, indent=2))
+    return output_list
 
 if __name__ == '__main__':
     app.run_server()
