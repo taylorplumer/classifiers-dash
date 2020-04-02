@@ -83,7 +83,7 @@ def callback_image(sample_selection, hoverData):
     model_on_hover = hover_dict['points'][0]['y']
 
     # create list of yellowbrick visualizers with naming conventions matching how they are stored in img diretory
-    visualizations = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
+    visualizations = ['ROCAUC','PrecisionRecallCurve', 'ClassificationReport','ConfusionMatrix']
 
     # create dictionary with each value as an element of visualizations list and value as associated base65 image
     output_list = []
