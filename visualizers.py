@@ -22,6 +22,11 @@ class Visualizer():
             self.visualizer = PrecisionRecallCurve(self.model)
         elif self.viz_selection == 'ConfusionMatrix':
             self.visualizer = ConfusionMatrix(model, classes=self.labels)
+        else:
+            return print("Error: viz_selection does not match accepted values. View Visualizer Class for accepted values.")
+
+
+
 
     def evaluate(self):
         self.visualizer.fit(self.X_train, self.y_train)

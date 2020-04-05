@@ -42,8 +42,18 @@ def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/png;base64,{}'.format(encoded.decode())
 
+# header
+
+header_ =     html.Div(
+                    className="app-header",
+                    children=[
+                        html.Div('CLASSIFIER SELECTION TOOL', className="app-header--title")
+                    ]
+                )
+
 
 app.layout = html.Div([
+            header_,
             dcc.Dropdown(
                 id='sample-dropdown',
                 options=[{'label': dropdown_value, 'value': dropdown_value} for dropdown_value in dropdown_values],

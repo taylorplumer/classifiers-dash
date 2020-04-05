@@ -1,20 +1,22 @@
-import pandas as pd
-import numpy as np
-from itertools import combinations
 from visualizers import Visualizer
 from helpers import create_img, evaluate_model, revise_dict, normalize_to_flat
 from upsample import upsample
 from load_data import load_data
-from sklearn.model_selection import train_test_split
-from pandas.io.json import json_normalize
 
+import sys
+import pandas as pd
+from pandas.io.json import json_normalize
+import numpy as np
+from itertools import combinations
+
+from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.utils import resample
 
 
-def create_report_df(upsampled=False):
+def create_report_df(input_data_filepath, upsampled=False):
 
     # modify depending on needs for sklearn classifiers and yellowbrick visualizers
     models = [GradientBoostingClassifier(), RandomForestClassifier(), LogisticRegression(max_iter=1000), GaussianNB() ]
@@ -22,7 +24,7 @@ def create_report_df(upsampled=False):
     visualizers = ['ClassificationReport', 'ROCAUC','PrecisionRecallCurve', 'ConfusionMatrix']
 
     #df, labels, X, y = load_data()
-    df, labels, features, target, X, y = load_data()
+    df, labels, features, target, X, y = load_data(input_data_filepath)
     train_df, test_df = train_test_split(df, test_size = .30, random_state=42)
     # ensure that upsample method only is applied to training set
     if upsampled==True:
@@ -76,8 +78,23 @@ def create_report_df(upsampled=False):
 
     return report_df
 
-report_df = create_report_df()
-report_df.to_csv('Data/Output/report_df.csv')
 
-report_df_upsampled = create_report_df(upsampled=True)
-report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
+def main():
+
+    if len(sys.argv) == 2:
+
+        input_data_filepath = 'Data/Input/' + sys.argv[1]
+
+
+        report_df = create_report_df(input_data_filepath)
+        report_df.to_csv('Data/Output/report_df.csv')
+
+        report_df_upsampled = create_report_df(input_data_filepath, upsampled=True)
+        report_df_upsampled.to_csv('Data/Output/report_df_upsampled.csv')
+
+    else:
+        print('Please provide the filename of the data file in the Data/Input directory'\
+              'containing the target and feature variables.')
+
+if __name__ == '__main__':
+    main()
