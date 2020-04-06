@@ -2,17 +2,26 @@
 Build a Dash web app diagnostic tool for binary classifier model selection
 
 ### Summary
-The repository contains working code for deploying to a Dash app locally. Instructions are below.
+This repository contains working code for deploying a binary classificaiton model selection tool to a Dash app locally. 
+
+The web app primarily consists of two componenets:
+
+1. A heatmap containing precision, recall, and f1 scores for each sklearn model along with their macro average (averaging the unweighted mean per label) and weighted average (averaging the support weighted mean per label).[^1]
+2. Images of matplotlib plots created utilizing classification visualizers from the Yellowbrick project. [^2]
+    - ROCAUC: Graphs the receiver operating characteristics and area under the curve.
+    - Precision-Recall Curves: Plots the precision and recall for different probability thresholds.
+    - Classification Report: A visual classification report that displays precision, recall, and F1 per-class as a heatmap.
+    - Confusion Matrix: A heatmap view of the confusion matrix of pairs of classes in multi-class classification.
 
 A demo deployed to Heroku is available for viewing at the following address: <https://classifier-dash-app.herokuapp.com/>
 
-The data used is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.
+The data used is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.[^3]
 
 ### Instructions:
-1. Input your data in the Data/Input directory with the target variable as the first column followed by the feature data.
+1. Input your data in the Data/Input directory with the target variable as the first column followed by the feature columns.
 2. Run the following commands in the project's root directory to set up the data and model.
 
-    - To create yellowbrick visualizers images and report dataframe consisting of sklearn classificationreport output dictionary for each sklearn model
+    - To create the yellowbrick classificaiton visualizer images and sklearn classificationreport output dictionaries (containing precision, recall, and f1 scores) for each sklearn model
         `python process_data.py`
 
 3. Run the following command to run the Dash Plotly web app.
@@ -27,3 +36,12 @@ After creating a virtual environment (recommended), you can install the dependen
 ```
 pip install -r requirements.txt
 ```
+
+
+### Inspiration
+
+
+### References
+[^1] https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html
+[^2] https://www.scikit-yb.org/en/latest/api/classifier/index.html
+[^3] http://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients
