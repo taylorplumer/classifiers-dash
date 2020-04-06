@@ -6,8 +6,8 @@ This repository contains working code for deploying a binary classificaiton mode
 
 The web app primarily consists of two componenets:
 
-1. A heatmap containing precision, recall, and f1 scores for each sklearn model along with their macro average (averaging the unweighted mean per label) and weighted average (averaging the support weighted mean per label).[^1]
-2. Images of matplotlib plots created utilizing classification visualizers from the Yellowbrick project. [^2]
+1. A heatmap containing precision, recall, and f1 scores for each sklearn model along with their macro average (averaging the unweighted mean per label) and weighted average (averaging the support weighted mean per label).<sup>1</sup>
+2. Images of matplotlib plots created utilizing classification visualizers from the Yellowbrick project.<sup>2</sup>
     - ROCAUC: Graphs the receiver operating characteristics and area under the curve.
     - Precision-Recall Curves: Plots the precision and recall for different probability thresholds.
     - Classification Report: A visual classification report that displays precision, recall, and F1 per-class as a heatmap.
@@ -15,7 +15,7 @@ The web app primarily consists of two componenets:
 
 A demo deployed to Heroku is available for viewing at the following address: <https://classifier-dash-app.herokuapp.com/>
 
-The data used is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.[^3]
+The data used is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.<sup>3</sup>
 
 ### Instructions:
 1. Input your data in the Data/Input directory with the target variable as the first column followed by the feature columns.
@@ -42,6 +42,8 @@ pip install -r requirements.txt
 
 
 ### References
-[^1] https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html
-[^2] https://www.scikit-yb.org/en/latest/api/classifier/index.html
-[^3] http://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients
+<sup>1</sup> https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html
+
+<sup>2</sup> https://www.scikit-yb.org/en/latest/api/classifier/index.html
+
+<sup>3</sup> http://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients
