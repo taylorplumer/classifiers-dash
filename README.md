@@ -3,6 +3,10 @@ Build a Dash web app for binary classification model selection
 
 ![](https://github.com/taylorplumer/classifiers-dash/blob/master/resources/classifier-dash-app_screenshot.png)
 
+A demo deployed to Heroku is available for viewing at the following address: <https://classifier-dash-app.herokuapp.com/>
+
+The demo is not mobile friendly so please view on desktop/PC for full functionality.
+
 ### Summary
 This repository contains working code for deploying a binary classificaiton model selection tool to a Dash app locally. 
 
@@ -18,8 +22,6 @@ The web app primarily consists of three components:
     - Precision-Recall Curves: Plots the precision and recall for different probability thresholds.
     - Classification Report: A visual classification report that displays precision, recall, and F1 per-class as a heatmap.
     - Confusion Matrix: A heatmap view of the confusion matrix of pairs of classes in multi-class classification.
-
-A demo deployed to Heroku is available for viewing at the following address: <https://classifier-dash-app.herokuapp.com/>
 
 The data used in the example is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.<sup>4</sup> If you would like to use your own data then place the file in the Data/Input directory and provide the command line arguement as noted below in the Instructions.
 
