@@ -4,10 +4,10 @@ Build a Dash web app for binary classifier model selection
 ### Summary
 This repository contains working code for deploying a binary classificaiton model selection tool to a Dash app locally. 
 
-The web app primarily consists of two componenets:
+The web app primarily consists of two components:
 
 1. A heatmap containing precision, recall, and f1 scores for each sklearn model along with their macro average (averaging the unweighted mean per label) and weighted average (averaging the support weighted mean per label).<sup>1</sup>
-2. Images of matplotlib plots created utilizing classification visualizers from the Yellowbrick project.<sup>2</sup>
+2. When hovering over associated sklearn model row in heatmap, images of matplotlib plots will populate that were created utilizing classification visualizers from the Yellowbrick project.<sup>2</sup>
     - ROCAUC: Graphs the receiver operating characteristics and area under the curve.
     - Precision-Recall Curves: Plots the precision and recall for different probability thresholds.
     - Classification Report: A visual classification report that displays precision, recall, and F1 per-class as a heatmap.
@@ -36,10 +36,6 @@ After creating a virtual environment (recommended), you can install the dependen
 ```
 pip install -r requirements.txt
 ```
-
-
-### Inspiration
-
 
 ### References
 <sup>1</sup> https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html
