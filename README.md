@@ -6,14 +6,14 @@ Build a Dash web app for binary classification model selection
 ### Summary
 This repository contains working code for deploying a binary classificaiton model selection tool to a Dash app locally. 
 
-The inspiration for this tool came from Issue #1044 from the Yellowbrick project to create a multi-model metrics visualizer "to create an at-a-glance representation of multiple model scores so that I can easily compare and contrast different model instances." The heatmap below is my solution albeit outside the scope of the Yellowbrick project itself given the use of Dash/Plotly instead of Matplotlib. Given the interactivity of Dash/Plolty, I extended the solution to incorporate existing yellowbrick classification visualizations, named 'visualizers'. 
+The inspiration for this tool came from Issue #1044<sup>1</sup> of the Yellowbrick project "to create an at-a-glance representation of multiple model scores so that I can easily compare and contrast different model instances." The heatmap below is my solution, albeit outside the scope of the Yellowbrick project itself given the use of Dash/Plotly instead of Matplotlib. Utilizing the interactivity of Dash/Plolty, I extended the solution to incorporate existing yellowbrick classification visualizations, named 'visualizers'. 
 
 The web app primarily consists of three components:
-
-1. A heatmap containing precision, recall, and f1 scores for each sklearn model along with the following:
+1. A dropdown allowing the user to view models with training data either as-is or synthetically upsampled to address any class imbalance. The default is no upsampling. The upsample.py module within the utils directory can provide details on the umpsampling process.
+2. A heatmap containing precision, recall, and f1 scores for each sklearn model along with the following:
     - macro average: averaging the unweighted mean per label
     - weighted average: averaging the support weighted mean per label<sup>2</sup>
-2. When hovering over associated sklearn model row in heatmap, images of matplotlib plots will populate that were created utilizing classification visualizers from the Yellowbrick project.<sup>3</sup>
+3. When hovering over associated sklearn model row in heatmap, images of matplotlib plots will populate that were created utilizing classification visualizers from the Yellowbrick project.<sup>3</sup>
     - ROCAUC: Graphs the receiver operating characteristics and area under the curve.
     - Precision-Recall Curves: Plots the precision and recall for different probability thresholds.
     - Classification Report: A visual classification report that displays precision, recall, and F1 per-class as a heatmap.
