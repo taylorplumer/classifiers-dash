@@ -44,7 +44,8 @@ pip install -r requirements.txt
 ```
 
 ### References
-<sup>2</sup> https://github.com/DistrictDataLabs/yellowbrick/issues/1044
+<sup>1</sup> https://github.com/DistrictDataLabs/yellowbrick/issues/1044
+
 <sup>2</sup> https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html
 
 <sup>3</sup> https://www.scikit-yb.org/en/latest/api/classifier/index.html
