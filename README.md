@@ -1,5 +1,5 @@
 # classifiers-dash-app
-Build a Dash web app diagnostic tool for binary classifier model selection
+Build a Dash web app for binary classifier model selection
 
 ### Summary
 This repository contains working code for deploying a binary classificaiton model selection tool to a Dash app locally. 
