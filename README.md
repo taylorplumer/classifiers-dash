@@ -27,13 +27,15 @@ The data used in the example is the 'default of credit card clients Data Set' fr
 
 ### Instructions:
 1. Input your data in the Data/Input directory with the target variable as the first column followed by the feature columns.
-2. Run the following commands in the project's root directory to set up the data and model.
+2. Run the following commands in the project's root directory to set up the data and images.
 
-    - To create the yellowbrick classificaiton visualizer images and sklearn classificationreport output dictionaries (containing precision, recall, and f1 scores) for each sklearn model. Please note that input data filepath is needed as an arguement i.e. credit.csv is used in example below.
+    - To create the yellowbrick classificaiton visualizer images and model scores output file named report_df.csv. Note that an input data filepath is needed as an arguement i.e. credit.csv
+        
         `python process_data.py credit.csv`
 
-3. Run the following command to run the Dash Plotly web app.
-    `python app.py`
+3. To run the Dash Plotly web app.
+    
+        `python app.py`
 
 4. Go to http://127.0.0.1:8050/
 
