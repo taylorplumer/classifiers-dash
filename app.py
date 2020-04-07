@@ -15,10 +15,11 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from itertools import combinations
-from visualizers import ClassificationReport, ROCAUC, PrecisionRecallCurve, ConfusionMatrix
-from upsample import upsample
-from load_data import load_data
-from helpers import create_heatmap
+from yellowbrick.classifier import  ClassificationReport, ROCAUC, PrecisionRecallCurve, ConfusionMatrix
+
+from utils.helpers import create_heatmap
+from utils.upsample import upsample
+from utils.load_data import load_data
 
 
 from sklearn.model_selection import train_test_split

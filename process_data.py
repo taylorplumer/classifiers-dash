@@ -1,9 +1,3 @@
-#from visualizers import Visualizer
-#from helpers import create_img, evaluate_model, revise_dict, normalize_to_flat
-#from upsample import upsample
-#from load_data import load_data
-
-#from utils import helpers, load_data, upsample, visualizers
 from utils.visualizers import Visualizer
 from utils.helpers import create_img, evaluate_model, revise_dict, normalize_to_flat
 from utils.upsample import upsample

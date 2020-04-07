@@ -31,7 +31,7 @@ def evaluate_model(model, X_train, y_train, X_test, y_test):
 
     y_pred = model.predict(X_test)
 
-    report = classificationreport(y_pred, y_test, target_names= ["0", "1"], output_dict=True)
+    report = classificationreport(y_test, y_pred, target_names= ["0", "1"], output_dict=True)
 
     return report
 
