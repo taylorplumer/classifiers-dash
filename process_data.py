@@ -1,5 +1,5 @@
 from utils.visualizers import Visualizer
-from utils.helpers import create_img, evaluate_model, revise_dict, normalize_to_flat
+from utils.helpers import create_img, evaluate_model, customize_dict_keys, normalize_to_flat
 from utils.upsample import upsample
 from utils.load_data import load_data
 
@@ -60,7 +60,7 @@ def create_report_df(input_data_filepath, upsampled=False):
 
     for col in dict_columns:
         # revise key values to personalize to its associated column i.e. from 'precision' to 'precision_0'
-        report_df[col] = report_df[col].apply(lambda x: revise_dict(x, col, keys))
+        report_df[col] = report_df[col].apply(lambda x: customize_dict_keys(x, col, keys))
 
         # iterate row wise through dataframe to normalize dictionary values into flat tables
         new_dict = {str(classifier) + '_df': normalize_to_flat(classifier, report_df, col) for classifier in report_df.index.values.tolist()}

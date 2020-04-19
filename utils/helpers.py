@@ -37,7 +37,7 @@ def evaluate_model(model, X_train, y_train, X_test, y_test):
 
 
 # revise key values to personalize to its associated column i.e. from 'precision' to 'precision_0'
-def revise_dict(x, col, keys):
+def customize_dict_keys(x, col, keys):
     new_keys = [key+'_'+col for key in keys]
     new_dict = dict(zip(new_keys, list(x.values())))
     return new_dict
