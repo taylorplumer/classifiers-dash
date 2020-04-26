@@ -48,10 +48,9 @@ def create_report_df(input_data_filepath, upsampled=False):
     report_df = pd.DataFrame.from_dict(report_dict).T
 
     # quick check to see whether report_df column structure is as expected
-    if report_df.columns.tolist() == ['0', '1', 'accuracy', 'macro avg', 'weighted avg']:
-        pass
-    else:
+    if report_df.columns.tolist() != ['0', '1', 'accuracy', 'macro avg', 'weighted avg']:
         print("Warning: Column names aren't as expected. Verify report_df output_dict is correct.")
+        
     report_df.columns = ['0', '1', 'accuracy', 'Macro Avg', 'Micro Avg' ]
 
     dict_columns = ['0', '1', 'Macro Avg', 'Micro Avg']
