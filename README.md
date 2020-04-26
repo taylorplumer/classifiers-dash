@@ -1,5 +1,5 @@
 # classifiers-dash-app
-Build a Dash web app for binary classification model selection
+A Dash web app for binary classification model selection
 
 ![](https://github.com/taylorplumer/classifiers-dash/blob/master/resources/classifier-dash-app_screenshot.png)
 
