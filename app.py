@@ -1,3 +1,4 @@
+from config import *
 import ast
 import base64
 import json
@@ -28,12 +29,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.utils import resample
 
+if len(sys.argv) == 2:
+    run_id = sys.argv[1]
 
 dropdown_values = ['Upsample', 'No Upsample']
 
 # read both non-upsampled and upsampled report_df csv files as dataframes
-report_df = pd.read_csv('Data/Output/report_df.csv').set_index('classifier')
-report_df_upsampled = pd.read_csv('Data/Output/report_df_upsampled.csv').set_index('classifier')
+report_df = pd.read_csv(OUTPUT_DATA_FILEPATH + 'report_df').set_index('classifier')
+report_df_upsampled = pd.read_csv(OUTPUT_DATA_FILEPATH + 'report_df_upsampled.csv').set_index('classifier')
 
 # create Dash app
 app = dash.Dash()
@@ -42,8 +45,6 @@ app = dash.Dash()
 def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/png;base64,{}'.format(encoded.decode())
-
-# header
 
 header_ =     html.Div(
                     className="app-header",
@@ -94,17 +95,17 @@ def callback_image(sample_selection, hoverData):
     model_on_hover = hover_dict['points'][0]['y']
 
     # create list of yellowbrick visualizers with naming conventions matching how they are stored in img diretory
-    visualizations = ['ROCAUC','PrecisionRecallCurve', 'ClassificationReport','ConfusionMatrix']
+    visualizations = VISUALIZERS
 
     # create dictionary with each value as an element of visualizations list and value as associated base65 image
     output_list = []
     for visualization in visualizations:
         if sample_selection == 'Upsample':
-            visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '_upsampled.png'
+            visualization_path = IMG_OUTPUT_FILEPATH  + model_on_hover + '/' + visualization + '_upsampled.png'
             visualization_image = encode_image(path+visualization_path)
             output_list.append(visualization_image)
         else:
-            visualization_path = 'Data/img/' + model_on_hover + '/' + visualization + '.png'
+            visualization_path = IMG_OUTPUT_FILEPATH  + model_on_hover + '/' + visualization + '.png'
             visualization_image = encode_image(path+visualization_path)
             output_list.append(visualization_image)
     return output_list
