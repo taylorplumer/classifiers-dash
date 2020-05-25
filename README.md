@@ -26,18 +26,19 @@ The web app consists of three components:
 The data used in the example is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.<sup>4</sup> If you would like to use your own data then place the file in the Data/Input directory and provide the command line arguement as noted below in the Instructions.
 
 ### Instructions:
-1. Input your data in the Data/Input directory with the target variable as the first column followed by the feature columns.
-2. Run the following commands in the project's root directory to set up the data and images.
+1. Review config.py file to select appropriate sklearn classifiers, yellowbrick visualizers, and filesystem structure for your needs
+2. Input your data in the data input filepath directory with the target variable as the first column followed by the feature columns.
+3. Run the following commands in the project's root directory to set up the data and images.
 
     - To create the yellowbrick classificaiton visualizer images and model scores output file named report_df.csv. Note that an input data filepath is needed as an arguement i.e. credit.csv
         
         `python process_data.py credit.csv`
 
-3. To run the Dash Plotly web app.
+4. To run the Dash Plotly web app.
     
         `python app.py`
 
-4. Go to http://127.0.0.1:8050/
+5. Go to http://127.0.0.1:8050/
 
 
 ###  Installation
