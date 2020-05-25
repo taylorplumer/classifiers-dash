@@ -35,7 +35,7 @@ if len(sys.argv) == 2:
 dropdown_values = ['Upsample', 'No Upsample']
 
 # read both non-upsampled and upsampled report_df csv files as dataframes
-report_df = pd.read_csv(OUTPUT_DATA_FILEPATH + 'report_df').set_index('classifier')
+report_df = pd.read_csv(OUTPUT_DATA_FILEPATH + 'report_df.csv').set_index('classifier')
 report_df_upsampled = pd.read_csv(OUTPUT_DATA_FILEPATH + 'report_df_upsampled.csv').set_index('classifier')
 
 # create Dash app
