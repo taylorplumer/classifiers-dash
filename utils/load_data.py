@@ -1,10 +1,27 @@
 import pandas as pd
-import yellowbrick
-from yellowbrick.datasets import load_credit
 from sklearn.model_selection import train_test_split
 from utils.upsample import upsample
 
 def load_data(filepath, upsampled=False):
+    """
+    Load input data from flat file with target variable as first column followed by however
+    many feature variables
+
+    Args:
+        filepath: location of flat file
+        upsampled: binary value to determine whether upsampling method is only applied
+                    to training set
+
+    Returns:
+        abels: list of class labels for binary classification
+        features: list of string values containing names of model features
+        target: list of singular string value containing target variable name
+        X_train: numpy ndarray of model features training data values
+        X_test: numpy ndarray of model features test data values
+        y_train: numpy ndarray of model target variable training data values
+        y_test: numpy ndarray of model target variable test data values
+        
+    """
 
     df = pd.read_csv(filepath)
     target = df.columns[0]

@@ -11,6 +11,20 @@ from utils.visualizers import Visualizer
 
 
 def create_img(X_train, X_test, y_train, y_test, labels, model, visualizer, upsampled,  IMG_OUTPUT_FILEPATH):
+    """
+    Create and save yellowbrick visualizer image for model specificed
+
+    Args:
+        X_train: numpy ndarray of model features training data values
+        X_test: numpy ndarray of model features test data values
+        y_train: numpy ndarray of model target variable training data values
+        y_test: numpy ndarray of model target variable test data values
+        labels: list of class labels for binary classification
+        visualizer: yellowbrick classification visualizer
+        upsampled: binary value to determine to which subdirectory output image should be saved
+        IMG_OUTPUT_FILEPATH (str): filepath name for output image
+
+    """
     viz = Visualizer(X_train, X_test, y_train, y_test, labels, model, visualizer, upsampled=upsampled)
     viz.evaluate()
     if upsampled == True:
@@ -19,20 +33,19 @@ def create_img(X_train, X_test, y_train, y_test, labels, model, visualizer, upsa
         outpath_ = IMG_OUTPUT_FILEPATH + str(model).split('(')[0] + '/' + visualizer + '.png'
     viz.visualizer.show(outpath=outpath_, clear_figure=True)
 
-
-
 def evaluate_model(model, X_train, y_train, X_test, y_test):
-
     """
     Evaluates model by providing individual category and summary metrics of model performance
     Args:
-        X_train
-        y_train
-        X_test: subset of X values withheld from the model building process
-        Y_test: subset of Y values witheld from the model building process and used to evaluate model predictions
+        model: sklearn estimator for classification
+        X_train: numpy ndarray of model features training data values
+        X_test: numpy ndarray of model features test data values
+        y_train: numpy ndarray of model target variable training data values
+        y_test: numpy ndarray of model target variable test data values
 
     Returns:
         report: classification report with evaluation metrics (f1, precision, recall, support)
+
     """
     model = model
     model.fit(X_train, y_train)
@@ -44,13 +57,37 @@ def evaluate_model(model, X_train, y_train, X_test, y_test):
     return report
 
 
-# revise key values to personalize to its associated column i.e. from 'precision' to 'precision_0'
+
 def customize_dict_keys(x, col, keys):
-    new_keys = [key+'_'+col for key in keys]
+    """
+    Revise key values to personalize to its associated column i.e. from 'precision' to 'precision_0'
+
+    Args:
+        x: pandas series
+        col (str): column name of pandas series
+        keys: list containing string values of classification metrics
+
+    Returns:
+        new_dict: dictionary containing new key names from string concatenation
+
+    """
+    new_keys = [key + '_' + col for key in keys]
     new_dict = dict(zip(new_keys, list(x.values())))
     return new_dict
 
 def normalize_to_flat(classifier, df, col):
+    """
+    Normalize json data into flat table
+
+    Args:
+        classifier (str): index value of report_df dataframe named as classifier model
+        df: pandas dataframe
+        col (str): column name of pandas series
+
+    Returns:
+        new_df: pandas dataframe of flat table
+
+    """
     name = str(classifier) + '_df'
     new_df= json_normalize(df.loc[classifier][col])
     new_df['classifier'] = [classifier]
@@ -58,6 +95,17 @@ def normalize_to_flat(classifier, df, col):
 
 
 def revise_report_df(report_df):
+    """
+
+    Transform report_df dataframe to format useable for displaying heatmap
+
+    Args:
+        report_df: pandas dataframe of sklearn classification_report output row-wise for by each model
+
+    Returns:
+        report_df: pandas dataframe formatted for use by create_heatmap function
+
+    """
     # quick check to see whether report_df column structure is as expected
     if report_df.columns.tolist() != ['0', '1', 'accuracy', 'macro avg', 'weighted avg']:
         print("Warning: Column names aren't as expected. Verify report_df output_dict is correct.")
@@ -92,12 +140,12 @@ def create_heatmap(df):
 
     """
     Create Plotly Heatmap graph object
-    Args:
 
+    Args:
         df: transformed report_df pandas dataframe from the process_data.py file
 
     Returns:
-        fig: Ploty Heatmap Figure that consists of data parameter and optional layout parameter
+        fig: ploty Figure graph object
 
     """
 
