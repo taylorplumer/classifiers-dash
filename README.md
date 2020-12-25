@@ -8,7 +8,7 @@ A demo deployed to Heroku is available for viewing at the following address: <ht
 The demo is not mobile friendly so please view on desktop/PC for full functionality.
 
 ### Summary
-This repository contains working code for deploying a binary classificaiton model selection tool to a Dash app locally. 
+This repository contains working code for deploying a binary classification model selection tool to a Dash app locally. 
 
 The inspiration for this tool came from Issue #1044<sup>1</sup> of the Yellowbrick project "to create an at-a-glance representation of multiple model scores so that I can easily compare and contrast different model instances." The heatmap below is my solution, albeit outside the scope of the Yellowbrick project itself given the use of Dash/Plotly instead of Matplotlib. Utilizing the interactivity of Dash/Plolty, I extended the solution to incorporate existing yellowbrick classification visualizations, named visualizers. 
 
@@ -23,14 +23,14 @@ The web app consists of three components:
     - Classification Report: A visual classification report that displays precision, recall, and F1 per-class as a heatmap.
     - Confusion Matrix: A heatmap view of the confusion matrix of pairs of classes in multi-class classification.
 
-The data used in the example is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.<sup>4</sup> If you would like to use your own data then place the file in the Data/Input directory and provide the command line arguement as noted below in the Instructions.
+The data used in the example is the 'default of credit card clients Data Set' from the UCI Machine Learning Repository.<sup>4</sup> If you would like to use your own data then place the file in the Data/Input directory and provide the command line argument as noted below in the Instructions.
 
 ### Instructions:
 1. Review config.py file to select appropriate sklearn classifiers, yellowbrick visualizers, and filesystem structure for your needs
 2. Input your data in the data input filepath directory with the target variable as the first column followed by the feature columns.
 3. Run the following commands in the project's root directory to set up the data and images.
 
-    - To create the yellowbrick classificaiton visualizer images and model scores output file named report_df.csv. Note that an input data filepath is needed as an arguement i.e. credit.csv
+    - To create the yellowbrick classificaiton visualizer images and model scores output file named report_df.csv. Note that an input data filepath is needed as an argument i.e. credit.csv
         
         `python process_data.py credit.csv`
 
