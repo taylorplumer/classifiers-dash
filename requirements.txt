@@ -15,7 +15,7 @@ joblib==0.14.1
 kiwisolver==1.2.0
 MarkupSafe==1.1.1
 matplotlib==3.2.1
-numpy==1.18.2
+numpy==1.22.0
 pandas==1.0.3
 plotly==4.6.0
 pyparsing==2.4.6
